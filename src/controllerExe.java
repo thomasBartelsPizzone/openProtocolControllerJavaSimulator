@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class snapOnControllerExe {
+public class controllerExe {
     public void start(int port) {
         System.out.println("We started");
 
@@ -67,7 +67,6 @@ public class snapOnControllerExe {
     // class for client handling
     public static class opClientHandler extends Thread {
         public openProtocolClientParserMIDClass oPCP = new openProtocolClientParserMIDClass();
-        public openProtocolClientSerializerMIDClass oPCS = new openProtocolClientSerializerMIDClass();
         public ServerSocket server;
         public Socket clientSocket;
         public int port;
@@ -92,14 +91,12 @@ public class snapOnControllerExe {
         //
         public void run() {
             System.out.println("called run again");
-            String controllerMid = null;
-            String inputCommandString = null;
-            String ctrlReply = null;
+            String controllerMid;
             String errorCode = "01";
             List<Object> inputCommandList = new ArrayList<>();
             //
             String replyMessage = null;
-            String inputLine = null;
+            String inputLine;
             //
             HashMap<String, String> ctrlRespMessage = new HashMap<>();
 
@@ -403,7 +400,7 @@ public class snapOnControllerExe {
     }
     //
     public static void main(String[] args) {
-        snapOnControllerExe server = new snapOnControllerExe();
+        controllerExe server = new controllerExe();
         //
         // set port Id
         server.start(4545);
