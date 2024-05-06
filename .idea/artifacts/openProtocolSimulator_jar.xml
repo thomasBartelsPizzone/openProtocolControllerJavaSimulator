@@ -1,8 +1,8 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="snapOnOpSimulator:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/snapOnOpSimulator_jar</output-path>
-    <root id="archive" name="snapOnOpSimulator.jar">
-      <element id="module-output" name="snapOnOpSimulator" />
+  <artifact type="jar" build-on-make="true" name="openProtocolSimulator:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/openProtocolSimulator_jar</output-path>
+    <root id="archive" name="openProtocolSimulator.jar">
+      <element id="module-output" name="openProtocolSimulator" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$USER_HOME$/OneDrive - Eyelit Inc/Code/Java/WaferMetrologyPlot/GenerateMap/lib/jsci-1.2.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.14.0/commons-lang3-3.14.0.jar" path-in-jar="/" />

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/snapOnOpSimulator.iml" filepath="$PROJECT_DIR$/snapOnOpSimulator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/openProtocolSimulator.iml" filepath="$PROJECT_DIR$/openProtocolSimulator.iml" />
     </modules>
   </component>
 </project>
