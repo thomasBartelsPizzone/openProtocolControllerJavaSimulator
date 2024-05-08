@@ -1,5 +1,3 @@
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,14 +13,6 @@ public class MID0103 {
             return "MID0004";
         } else {
             return "MID0004";
-        }
-    }
-    //
-    static String padZeroes(String midAscii, int msgLength, String direction) {
-        if (direction.equals("left")) {
-            return StringUtils.leftPad(midAscii, msgLength, "0");
-        } else {
-            return StringUtils.rightPad(midAscii, msgLength, "0");
         }
     }
     //
