@@ -19,19 +19,19 @@ public class openProtocolClientParserMIDClass {
     public Object parseMessage(String controllerMessage) {
 //        System.out.println("parseMessage\n " + controllerMessage);
         //
-        String mid = null;
-        String midCommand = null;
-        String midLengthString = null;
-        String midRevisionString = null;
+        String mid;
+        String midCommand;
+        String midLengthString;
+        String midRevisionString;
         Object controllerMessageMap = null;
-        Object controllerMessageMapTest1 = null;
-        Object controllerMessageMapTest2 = null;
         //
         mid = getMID(controllerMessage);
 //        System.out.println("MID from controller\n " + mid);
         //
         midCommand = "MID" + mid;
 //        System.out.println("MID+ from controller\n " + midCommand);
+        //
+        String midPackage = "midCommands" + "." + midCommand;
         //
         midLengthString = getLength(controllerMessage);
 //        System.out.println("command length \n " + midLengthString);
@@ -42,9 +42,10 @@ public class openProtocolClientParserMIDClass {
         Class<?>[] inputTypes = {String.class, String.class, String.class, String.class};
         try {
             ////
-            Object midClassObj = Class.forName(midCommand).getDeclaredConstructor().newInstance();
+//            Object midClassObj = Class.forName(midCommand).getDeclaredConstructor().newInstance();
+            Object midClassObj = Class.forName(midPackage).getDeclaredConstructor().newInstance();
             Class<?> midClass = midClassObj.getClass();
-            System.out.println("what is the midClass: " + midClass);
+//            System.out.println("what is the midClass: " + midClass);
             //
             Method method = midClass.getDeclaredMethod("controllerString", inputTypes);
 //            System.out.println("what is the method: " + method);

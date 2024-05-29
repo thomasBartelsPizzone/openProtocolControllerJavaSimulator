@@ -32,10 +32,11 @@ public class openProtocolClientSerializerMIDClass {
         assert mid != null;
         //
         String midValue = mid.substring(3);
+//        System.out.println("the mid without folder is " + mid);
+        String midPackage = "midCommands" + "." + mid;
+//        System.out.println("the mid with folder is " + mid);
         //
         Class<?>[] inputTypes = {String.class, List.class};
-        //
-        String className = mid;
         try {
 //            Class<?> clazz = Class.forName(className);
 //            Object obj = clazz.getDeclaredConstructor().newInstance();
@@ -49,21 +50,26 @@ public class openProtocolClientSerializerMIDClass {
 //            System.out.println("what was integrationString-A\n" + integrationString);
             ////
             ////
-            Object midClassObj = Class.forName(mid).getDeclaredConstructor().newInstance();
+            Object midClassObj = Class.forName(midPackage).getDeclaredConstructor().newInstance();
             Class<?> midClass = midClassObj.getClass();
 //            System.out.println("what is the midClass: " + midClass);
+//            Class<?> midClass2 = ClassLoader.getSystemClassLoader().loadClass(mid);
+//            System.out.println("what is the midClass2: " + midClass2);
             //
             Method method = midClass.getDeclaredMethod("integratorString", inputTypes);
 //            System.out.println("what is the method-B: " + method);
+//            java.lang.reflect.Method method2 = midClass2.getDeclaredMethod("integratorString", inputTypes);
+//            System.out.println("what is the method2: " + method2);
             //
             integrationString = method.invoke(midClassObj, midValue, dataField);
+//            integrationString = method2.invoke(midClassObj, midValue, dataField);
 //            System.out.println("what was integrationString-B\n" + integrationString);
         } catch(Throwable e) {
             System.out.println("Class or Method missing\n" + e.getMessage());
             e.printStackTrace();
         }
-//         integrationString = midSerializer.MID0001(midValue, dataField);
-//        integrationString = midSerializer.MID0012(midValue, dataField);
+//         integrationString = midSerializer.midCommands.MID0001(midValue, dataField);
+//        integrationString = midSerializer.midCommands.MID0012(midValue, dataField);
         //
         System.out.println("what was integrationString\n" + integrationString);
         return (String) integrationString;
