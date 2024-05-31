@@ -10,5 +10,7 @@
     <orderEntry type="library" exported="" name="apache.commons.lang3" level="application" />
     <orderEntry type="library" exported="" name="slf4j.api" level="application" />
     <orderEntry type="library" exported="" name="jsci-1.2" level="application" />
+    <orderEntry type="library" exported="" name="apache.logging.log4j.core" level="application" />
+    <orderEntry type="library" exported="" name="apache.logging.log4j.api" level="application" />
   </component>
 </module>

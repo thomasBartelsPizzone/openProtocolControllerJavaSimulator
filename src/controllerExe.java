@@ -17,10 +17,41 @@ import java.util.List;
 import java.util.Objects;
 
 public class controllerExe {
+    public static JTextField ctrlName;
+    public static JTextField portString;
+    public static JTextField initTimeout;
+    public static JTextField timeoutDelay;
+    public static JTextField serializedMidString;
+    public static JTextArea dialogBox;
+    public static JButton btnMode;
+    public static JButton btnSendSerializedMid;
+    public static openProtocolClientParserMIDClass oPCP = new openProtocolClientParserMIDClass();
+    public static openProtocolClientSerializerMIDClass oPCS = new openProtocolClientSerializerMIDClass();
+    // Controller Frame
+    public static JFrame controllerFrame = new JFrame("Controller");
+    public static ServerSocket serverSocket;
+    public static String[][] relpyCmdList() {
+        return new String[][]{{"       ", "       "},
+                {"1", "MID0011", "00290011001000000000002001002"},
+                {"1", "MID0065", "0118006500100000000001456789000002pAirBg000000000000000000003001040020050060070080014670900046102005-06-24:13:29:12142112"},
+                {"1", "MID0013", "0104001300100000000001004028N-m                     0310401050007000600080007000700080000009000001000000 "},
+                {"1", "MID0031", "0088003100200000000000160001000200030004000500060007000800090010001100120013001400150016 "},
+                {"1", "MID0033", "01000033001000000000011202PWR Steering Ln 18N-m    031040000050000006007108009110011011200:002:1:01;"},
+                {"1", "MID0041", "01560041002000000000010120102625    020000000015032020-01-25:00:00:0004000000049005000000062020-01-25:00:00:000700000000000809090010100111.2.2               "},
+                {"1", "MID0061", "050000610041        010000020003                         04                         050005060040710080000509000110000111112113114115116117118019120000000000021000700220008002300070024000710250000026000002700000280000029000003000000310000032000330003400035000000360000003700000038000000390000004000000041000000002242000324300000440120102625    452024-02-27:16:40:12462024-02-07:11:58:20478N-m                     478512963                         51                         52                          "},
+                {"2", "MID0061", "050000610041        010000020003                         04                         050005060040710080000509000110000111112113114115116117118019120000000000021000700220008002300070024000720250000026000002700000280000029000003000000310000032000330003400035000000360000003700000038000000390000004000000041000000002342000324300000440120102625    452024-02-27:16:40:22462024-02-07:11:58:20478N-m                     478512963                         51                         52                          "},
+                {"3", "MID0061", "050000610041        010000020003                         04                         050005060040710080000509000110000111112113114115116117118019120000000000021000700220008002300070024000730250000026000002700000280000029000003000000310000032000330003400035000000360000003700000038000000390000004000000041000000002442000324300000440120102625    452024-02-27:16:40:35462024-02-07:11:58:20478N-m                     478512963                         51                         52                          "},
+                {"4", "MID0061", "050000610041        010000020003                         04                         050005060040710080000509000110000111112113114115116117118019120000000000021000700220008002300070024000730250000026000002700000280000029000003000000310000032000330003400035000000360000003700000038000000390000004000000041000000002542000324300000440120102625    452024-02-27:16:40:38462024-02-07:11:58:20478N-m                     478512963                         51                         52                          "},
+                {"5", "MID0061", "050000610041        010000020003                         04                         050005060040710080000509000110000111112113114115116117118019120000000000021000700220008002300070024000750250000026000002700000280000029000003000000310000032000330003400035000000360000003700000038000000390000004000000041000000002642000324300000440120102625    452024-02-27:16:40:49462024-02-07:11:58:20478N-m                     478512963                         51                         52                          "},
+                {"6", "MID0061", "050000610041        010000020003                         04                         050005060040710080000509000110000111112113114115116117118019120000000000021000700220008002300070024000750250000026000002700000280000029000003000000310000032000330003400035000000360000003700000038000000390000004000000041000000002742000324300000440120102625    452024-02-27:16:40:52462024-02-07:11:58:20478N-m                     478512963                         51                         52                          "},
+                {"7", "MID0061", "050000610041        010000020003                         04                         050005060040710080000509000110000111112113114115116117118019120000000000021000700220008002300070024000740250000026000002700000280000029000003000000310000032000330003400035000000360000003700000038000000390000004000000041000000002842000324300000440120102625    452024-02-27:16:40:54462024-02-07:11:58:20478N-m                     478512963                         51                         52                          "},
+                {"1", "MID0065", "0118006500100000000001456789000002pAirBg000000000000000000003001040020050060070080014670900046102005-06-24:13:29:12142112"}
+        };
+    }
+    //
     public void start(int port) {
         System.out.println("We started");
 
-        ServerSocket serverSocket = null;
         // Socket clientSocket = null;
         JTextArea textReceive = new JTextArea();
         JTextArea textReply = new JTextArea();
@@ -290,6 +321,239 @@ public class controllerExe {
         tArea.append("\n");
     }
     //
+    public static JPanel connectionPanel()  {
+        // Connection JPanels
+        JPanel pnlCnctMain = new JPanel();
+        pnlCnctMain.setLayout(new BoxLayout(pnlCnctMain, BoxLayout.Y_AXIS));
+        pnlCnctMain.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pnlCnctMain.setAlignmentY(Component.CENTER_ALIGNMENT);
+        // Connection Header
+        JLabel lblManualConnect = new JLabel("Device Details");
+//        lblManualConnect.setFont(new Font("Courier", Font.BOLD, 16));
+        lblManualConnect.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblManualConnect.setAlignmentY(Component.TOP_ALIGNMENT);
+        lblManualConnect.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
+        pnlCnctMain.add(lblManualConnect);
+        // Connect Detail
+        JPanel pnlCnctDtl = new JPanel();
+        pnlCnctDtl.setLayout(new BoxLayout(pnlCnctDtl, BoxLayout.X_AXIS));
+        // labels
+        JPanel pnlCnctLbls = new JPanel();
+        pnlCnctLbls.setPreferredSize(new Dimension(85, 70));
+        pnlCnctLbls.setMaximumSize(pnlCnctLbls.getPreferredSize());
+        pnlCnctLbls.setLayout(new BoxLayout(pnlCnctLbls, BoxLayout.Y_AXIS));
+        pnlCnctLbls.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JPanel pnlCnctipLbl = new JPanel();
+        pnlCnctipLbl.setMaximumSize(new Dimension(85, 30));
+        pnlCnctipLbl.setLayout(new BoxLayout(pnlCnctipLbl, BoxLayout.X_AXIS));
+        JLabel ipLbl = new JLabel("Port:");
+        ipLbl.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pnlCnctipLbl.add(ipLbl);
+        pnlCnctLbls.add(pnlCnctipLbl);
+        JPanel pnlCnctLblpd = new JPanel();
+        pnlCnctLblpd.setMaximumSize(new Dimension(85, 5));
+        pnlCnctLblpd.setMinimumSize(new Dimension(50, 5));
+        pnlCnctLbls.add(pnlCnctLblpd);
+        JPanel pnlCnctlblCtrl = new JPanel();
+        pnlCnctlblCtrl.setMaximumSize(new Dimension(85, 30));
+        pnlCnctlblCtrl.setMinimumSize(new Dimension(50, 30));
+        pnlCnctlblCtrl.setLayout(new BoxLayout(pnlCnctlblCtrl, BoxLayout.X_AXIS));
+        JLabel lblCtrl = new JLabel("Device:");
+        lblCtrl.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pnlCnctlblCtrl.add(lblCtrl);
+        pnlCnctLbls.add(pnlCnctlblCtrl);
+        pnlCnctDtl.add(pnlCnctLbls);
+        // ip, port text areas (x) + device (y)
+        JPanel pnlCnctDtlFlds = new JPanel();
+        pnlCnctDtlFlds.setLayout(new BoxLayout(pnlCnctDtlFlds, BoxLayout.Y_AXIS));
+        pnlCnctDtlFlds.setAlignmentY(Component.CENTER_ALIGNMENT);
+        pnlCnctDtlFlds.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JPanel pnlCnctDtlPortFld = new JPanel();
+//        pnlCnctDtlPortFld.setPreferredSize(new Dimension((int) (controllerFrame.getWidth() * pnlWRatio1), 30));
+//        pnlCnctDtlPortFld.setMaximumSize(pnlCnctDtlPortFld.getPreferredSize());
+//        pnlCnctDtlPortFld.setLayout(new BoxLayout(pnlCnctDtlPortFld, BoxLayout.X_AXIS));
+        portString = new JTextField("4545");
+        portString.setToolTipText("Device/Controller Port Id required.");
+        portString.setAlignmentX(Component.LEFT_ALIGNMENT);
+        portString.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        pnlCnctDtlPortFld.add(portString);
+        pnlCnctDtlFlds.add(pnlCnctDtlPortFld);
+        JPanel pnlCnctDtlFldspd = new JPanel();
+//        pnlCnctDtlFldspd.setPreferredSize(new Dimension((int) (controllerFrame.getWidth() * pnlWRatio1), 5));
+//        pnlCnctDtlFldspd.setMaximumSize(pnlCnctDtlFldspd.getPreferredSize());
+        pnlCnctDtlFlds.add(pnlCnctDtlFldspd);
+        JPanel pnlCnctDtlctrlNameFlds = new JPanel();
+//        pnlCnctDtlctrlNameFlds.setPreferredSize(new Dimension((int) (controllerFrame.getWidth() * pnlWRatio1), 30));
+//        pnlCnctDtlctrlNameFlds.setMaximumSize(pnlCnctDtlctrlNameFlds.getPreferredSize());
+        pnlCnctDtlctrlNameFlds.setLayout(new BoxLayout(pnlCnctDtlctrlNameFlds, BoxLayout.X_AXIS));
+        ctrlName = new JTextField("deviceName");
+        ctrlName.setToolTipText("Device/Controller Name.");
+        ctrlName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        ctrlName.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        pnlCnctDtlctrlNameFlds.add(ctrlName);
+        pnlCnctDtlFlds.add(pnlCnctDtlctrlNameFlds);
+        pnlCnctDtl.add(pnlCnctDtlFlds);
+        pnlCnctMain.add(pnlCnctDtl);
+        //
+        return pnlCnctMain;
+    }
+    //
+    public static JPanel midPanel(double pnlWRatio2) {
+        // MID section
+        JPanel pnlMidContainer = new JPanel();
+        pnlMidContainer.setLayout(new BoxLayout(pnlMidContainer, BoxLayout.Y_AXIS));
+        pnlMidContainer.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pnlMidContainer.setAlignmentY(Component.CENTER_ALIGNMENT);
+        // MID Header
+        JLabel lblMessages = new JLabel("MID Messages");
+        lblMessages.setFont(new Font("Courier", Font.BOLD, 14));
+        lblMessages.setAlignmentY(Component.TOP_ALIGNMENT);
+        lblMessages.setAlignmentX(Component.LEFT_ALIGNMENT);
+        lblMessages.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+        pnlMidContainer.add(lblMessages);
+        // mid command container
+        JPanel pnlMidCommand = new JPanel();
+        pnlMidCommand.setLayout(new BoxLayout(pnlMidCommand, BoxLayout.X_AXIS));
+        pnlMidCommand.setAlignmentX(Component.LEFT_ALIGNMENT);
+//      // labels
+        JPanel pnlAllMIDLbls = new JPanel();
+        pnlAllMIDLbls.setPreferredSize(new Dimension(150, 70));
+        pnlAllMIDLbls.setMaximumSize(pnlAllMIDLbls.getPreferredSize());
+        pnlAllMIDLbls.setMinimumSize(new Dimension(100, 70));
+        pnlAllMIDLbls.setLayout(new BoxLayout(pnlAllMIDLbls, BoxLayout.Y_AXIS));
+        pnlAllMIDLbls.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JPanel pnlMIDLbl = new JPanel();
+        pnlMIDLbl.setMaximumSize(new Dimension(150, 30));
+        pnlMIDLbl.setMinimumSize(new Dimension(100, 30));
+        pnlMIDLbl.setLayout(new BoxLayout(pnlMIDLbl, BoxLayout.X_AXIS));
+        JLabel lblMID = new JLabel("MID Command:");
+        lblMID.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pnlMIDLbl.add(lblMID);
+        pnlAllMIDLbls.add(pnlMIDLbl);
+        JPanel pnlAllMIDpd = new JPanel();
+        pnlAllMIDpd.setMaximumSize(new Dimension(150, 5));
+        pnlAllMIDpd.setMinimumSize(new Dimension(100, 5));
+        pnlAllMIDLbls.add(pnlAllMIDpd);
+        JPanel pnlSerializedMIDLbl = new JPanel();
+        pnlSerializedMIDLbl.setMaximumSize(new Dimension(150, 30));
+        pnlSerializedMIDLbl.setMinimumSize(new Dimension(100, 30));
+        pnlSerializedMIDLbl.setLayout(new BoxLayout(pnlSerializedMIDLbl, BoxLayout.X_AXIS));
+        JLabel lblSerialized = new JLabel("Serialized MID:");
+        lblSerialized.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pnlSerializedMIDLbl.add(lblSerialized);
+        pnlAllMIDLbls.add(pnlSerializedMIDLbl);
+        pnlMidCommand.add(pnlAllMIDLbls);
+        // MID Command and input vals section
+        JPanel pnlMIDDtlFlds = new JPanel();
+        pnlMIDDtlFlds.setLayout(new BoxLayout(pnlMIDDtlFlds, BoxLayout.Y_AXIS));
+        pnlMIDDtlFlds.setAlignmentY(Component.CENTER_ALIGNMENT);
+        JPanel pnlMIDDtlCmdInVFlds = new JPanel();
+//        pnlMIDDtlCmdInVFlds.setPreferredSize(new Dimension((int) (controllerFrame.getWidth() * pnlWRatio2), 30));
+        pnlMIDDtlCmdInVFlds.setMaximumSize(pnlMIDDtlCmdInVFlds.getPreferredSize());
+        pnlMIDDtlCmdInVFlds.setLayout(new BoxLayout(pnlMIDDtlCmdInVFlds, BoxLayout.X_AXIS));
+        // call method to get list of commands as dropdown.
+//        midCmdCB.setBorder(BorderFactory.createEmptyBorder(0, 1, 0, 10));
+//        midCmdCB.setBorder(BorderFactory.createLineBorder(Color.white, 1));
+//        midCmdCB.setBorder(BorderFactory.createLineBorder(hostFrame.getBackground()));
+//        UIManager.put("ComoboBox.border", BorderFactory.createEmptyBorder());
+//        UIManager.put("ComboBox.border", new Insets(0, 0, 0, 0));
+//        midCmdCB.setBorder(BorderFactory.createEmptyBorder());
+        String[] midCmdDd = cmdList();
+        midCmdCB = new JComboBox<>(midCmdDd);
+        midCmdCB.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        midCmdCB.setBorder(null);
+        midCmdCB.setAlignmentX(Component.LEFT_ALIGNMENT);
+        midCmdCB.setToolTipText("'MID' Command");
+        midCmdCB.setPreferredSize(new Dimension(125, 30));
+        midCmdCB.setMaximumSize(midCmdCB.getPreferredSize());
+        midCmdCB.setMinimumSize(midCmdCB.getPreferredSize());
+        midCmdCB.setBackground(Color.white);
+        pnlMIDDtlCmdInVFlds.add(midCmdCB);
+        JPanel pnlMIDDtlInFlds = new JPanel();
+        pnlMIDDtlInFlds.setPreferredSize(new Dimension(110, 30));
+        pnlMIDDtlInFlds.setMaximumSize(pnlMIDDtlInFlds.getPreferredSize());
+        JLabel lblVals = new JLabel("Input Values:");
+        lblVals.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlMIDDtlInFlds.add(lblVals);
+        pnlMIDDtlCmdInVFlds.add(pnlMIDDtlInFlds);
+        midInputString = new JTextField();
+        midInputString.setToolTipText("include MID command values if applicable.");
+        midInputString.setAlignmentX(Component.LEFT_ALIGNMENT);
+        midInputString.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        pnlMIDDtlCmdInVFlds.add(midInputString);
+        pnlMIDDtlFlds.add(pnlMIDDtlCmdInVFlds);
+        JPanel pnlMIDDtlFldsPd = new JPanel();
+        pnlMIDDtlFldsPd.setPreferredSize(new Dimension((int) (hostFrame.getWidth() * pnlWRatio2), 5));
+        pnlMIDDtlFldsPd.setMaximumSize(pnlMIDDtlFldsPd.getPreferredSize());
+        pnlMIDDtlFlds.add(pnlMIDDtlFldsPd);
+        JPanel pnlMIDDtlSrlzdFlds = new JPanel();
+        pnlMIDDtlSrlzdFlds.setPreferredSize(new Dimension((int) (hostFrame.getWidth() * pnlWRatio2), 30));
+        pnlMIDDtlSrlzdFlds.setMaximumSize(pnlMIDDtlSrlzdFlds.getPreferredSize());
+        pnlMIDDtlSrlzdFlds.setLayout(new BoxLayout(pnlMIDDtlSrlzdFlds, BoxLayout.X_AXIS));
+        serializedMidString = new JTextField();
+        serializedMidString.setToolTipText("include serialized MID message.");
+        serializedMidString.setAlignmentX(Component.LEFT_ALIGNMENT);
+        serializedMidString.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        pnlMIDDtlSrlzdFlds.add(serializedMidString);
+        pnlMIDDtlFlds.add(pnlMIDDtlSrlzdFlds);
+        pnlMidCommand.add(pnlMIDDtlFlds);
+        pnlMidContainer.add(pnlMidCommand);
+        //
+        return pnlMidContainer;
+    }
+    //
+    public static JPanel sendPanel() {
+        // MID Send JPanels
+        JPanel pnlSendMID = new JPanel();
+        pnlSendMID.setLayout(new BoxLayout(pnlSendMID, BoxLayout.Y_AXIS));
+        pnlSendMID.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pnlSendMID.setAlignmentY(Component.CENTER_ALIGNMENT);
+        // Connection Header
+        JLabel blankLabel = new JLabel(" ");
+        blankLabel.setFont(new Font("Courier", Font.BOLD, 14));
+        blankLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        blankLabel.setAlignmentY(Component.TOP_ALIGNMENT);
+        blankLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+        pnlSendMID.add(blankLabel);
+        // main mid container
+        btnSendSerializedMid = new JButton("send");
+        btnSendSerializedMid.setPreferredSize(new Dimension(100, 30));
+        btnSendSerializedMid.setMaximumSize(btnSendSerializedMid.getPreferredSize());
+        btnSendSerializedMid.setMinimumSize(btnSendSerializedMid.getPreferredSize());
+        btnSendSerializedMid.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pnlSendMID.add(btnSendSerializedMid);
+        //
+        return pnlSendMID;
+    }
+    //
+    public static JPanel dialogPanel(double pnlHRatio1, double pnlWRatio1) {
+        // Dialog section
+        JPanel pnlDialogContainer = new JPanel();
+        pnlDialogContainer.setLayout(new BoxLayout(pnlDialogContainer, BoxLayout.Y_AXIS));
+        pnlDialogContainer.setAlignmentY(Component.CENTER_ALIGNMENT);
+        // Dialog Header
+        JLabel lblDialog = new JLabel("Communication Log");
+        lblDialog.setFont(new Font("Courier", Font.BOLD, 14));
+        lblDialog.setAlignmentY(Component.TOP_ALIGNMENT);
+        lblDialog.setAlignmentX(Component.LEFT_ALIGNMENT);
+        lblDialog.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+        pnlDialogContainer.add(lblDialog);
+        // mid command container
+        JPanel pnldialogBox = new JPanel();
+        pnldialogBox.setPreferredSize(new Dimension((int) (controllerFrame.getWidth() * pnlWRatio1), (int) (controllerFrame.getHeight() * pnlHRatio1)));
+        pnldialogBox.setLayout(new BoxLayout(pnldialogBox, BoxLayout.X_AXIS));
+        pnldialogBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        dialogBox = new JTextArea();
+        dialogBox.setLineWrap(true);
+        dialogBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JScrollPane scrollDialogContainer = new JScrollPane(dialogBox);
+        pnldialogBox.add(scrollDialogContainer);
+        pnlDialogContainer.add(pnldialogBox);
+        return pnlDialogContainer;
+    }
+    //
     public static void createDialog(ServerSocket serverSocket, Socket clientSocket, int port, JTextArea textReceive, JTextArea textReply, JTextArea textManualReply) {
         //
         JFrame frame = new JFrame("Controller " + serverSocket.getInetAddress().getHostName() + ": " + port);
@@ -386,6 +650,118 @@ public class controllerExe {
         });
     }
     //
+    public static void createFrame() {
+        // ScreenSize
+        Dimension refScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int refFrameSizeW = (int) refScreenSize.getWidth();
+        int refFrameSizeH = (int) refScreenSize.getHeight();
+        // frame ratio
+        double maxFramePercentageW = 0.80;
+        double maxFramePercentageH = 0.80;
+        double minFramePercentageW = 0.65;
+        double minFramePercentageH = 0.65;
+        int maxFrameSizeW = (int) (refFrameSizeW * maxFramePercentageW);
+        int minFrameSizeW = (int) (refFrameSizeW * minFramePercentageW);
+        int maxFrameSizeH = (int) (refFrameSizeH * maxFramePercentageH);
+        int minFrameSizeH = (int) (refFrameSizeH * minFramePercentageH);
+
+        controllerFrame.setPreferredSize(new Dimension(minFrameSizeW, minFrameSizeH));
+        controllerFrame.setMaximumSize(new Dimension(maxFrameSizeW, maxFrameSizeH));
+        controllerFrame.setMinimumSize(controllerFrame.getPreferredSize());
+        controllerFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                hostLogger.hostLog("exit", "closing window", "info");
+                try {
+                    hostLogger.hostLog("exit", "closing window", "info");
+                    stop(serverSocket);
+                } catch (Throwable a) {
+                    hostLogger.hostLog("exit", a.getMessage(), "error");
+//                    System.out.println("Closing Window, can't stop connection\n" + a.getMessage());
+//                    a.printStackTrace();
+                }
+                System.exit(0);
+            }
+        });
+        // panel ratios
+        double pnlHRatioA = (double) 2/9;
+        double pnlHRatioB = (double) 1/18;
+//        double pnlHRatioB = (double) 1/9;
+        double pnlHRatioC = (double) 1/3;
+        double pnlHRatioD = (double) 1/36;
+        double pnlHRatioE = (double) 1/9;
+
+        double pnlWRatioA = (double) 11/12;
+        double pnlWRatioB = (double) 2/3;
+        double pnlWRatioC = (double) 5/24;
+        double pnlWRatioD = (double) 1/3;
+        double pnlWRatioE = (double) 1/8;
+        double pnlWRatioF = (double) 3/4;
+//        double pnlWRatioG = (double) 1/24;
+        double pnlWRatioG = (double) 1/48;
+        double pnlWRatioH = (double) 11/24;
+        double pnlWRatioI = (double) 1/12;
+        double pnlWRatioJ = (double) 1/4;
+        
+        // main container
+        JPanel pnlMainContainer = new JPanel();
+        pnlMainContainer.setLayout(new BoxLayout(pnlMainContainer, BoxLayout.Y_AXIS));
+        pnlMainContainer.setPreferredSize(new Dimension(controllerFrame.getWidth(), controllerFrame.getHeight()));
+        pnlMainContainer.setMaximumSize(controllerFrame.getPreferredSize());
+        pnlMainContainer.setMinimumSize(controllerFrame.getPreferredSize());
+        //
+        //dialog panel
+        JPanel pnlSubContainer4 = new JPanel();
+        pnlSubContainer4.setLayout(new BoxLayout(pnlSubContainer4, BoxLayout.X_AXIS));
+        pnlSubContainer4.setAlignmentY(Component.CENTER_ALIGNMENT);
+        pnlSubContainer4.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pnlSubContainer4.setPreferredSize(new Dimension((int) (controllerFrame.getWidth() * pnlWRatioA), (int) (controllerFrame.getHeight() * pnlHRatioC)));
+//        pnlSubContainer4.setMaximumSize(pnlSubContainer4.getPreferredSize());
+//        pnlSubContainer4.setMinimumSize(pnlSubContainer4.getPreferredSize());
+        pnlSubContainer4.setBorder(BorderFactory.createEmptyBorder(0, (int) (controllerFrame.getWidth() * pnlWRatioG)
+                , (int) (controllerFrame.getHeight() * pnlHRatioD)
+                , (int) (controllerFrame.getWidth() * pnlWRatioG)));
+        // dialog box text area
+        // Dialog section
+        JPanel pnlDialogContainer = dialogPanel(pnlHRatioC, pnlWRatioA);
+        pnlSubContainer4.add(pnlDialogContainer);
+        pnlMainContainer.add(pnlSubContainer4);
+        //
+        // Exit Section
+        JPanel pnlSubContainer5 = new JPanel();
+        pnlSubContainer5.setLayout(new BoxLayout(pnlSubContainer5, BoxLayout.Y_AXIS));
+        pnlSubContainer5.setAlignmentY(Component.CENTER_ALIGNMENT);
+        pnlSubContainer5.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pnlSubContainer5.setPreferredSize(new Dimension((int) (controllerFrame.getWidth() * pnlWRatioA), (int) (controllerFrame.getHeight() * pnlHRatioB)));
+        pnlSubContainer5.setMaximumSize(pnlSubContainer5.getPreferredSize());
+        pnlSubContainer5.setMinimumSize(pnlSubContainer5.getPreferredSize());
+        pnlSubContainer5.setBorder(BorderFactory.createEmptyBorder(0, (int) (controllerFrame.getWidth() * pnlWRatioG)
+                , 0
+                , (int) (controllerFrame.getWidth() * pnlWRatioG)));
+        JButton btnExit = new JButton("Exit");
+        btnExit.setLayout(new BoxLayout(btnExit, BoxLayout.X_AXIS));
+        btnExit.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnExit.setAlignmentY(Component.CENTER_ALIGNMENT);
+//        btnExit.setPreferredSize(new Dimension((int) (controllerFrame.getWidth() * pnlWRatioI), (int) (controllerFrame.getHeight() * pnlHRatioB)));
+//        btnExit.setPreferredSize(new Dimension((int) (controllerFrame.getWidth() * pnlWRatioI), 30));
+        btnExit.setPreferredSize(new Dimension((int) (controllerFrame.getWidth() * pnlWRatioE), 30));
+        btnExit.setMaximumSize(btnExit.getPreferredSize());
+        btnExit.setMinimumSize(btnExit.getPreferredSize());
+//        pnlMainContainer.add(btnExit);
+        pnlSubContainer5.add(btnExit);
+        pnlMainContainer.add(pnlSubContainer5);
+        //
+        // complete main container
+//        controllerFrame.add(pnlMainContainer);
+        controllerFrame.setContentPane(pnlMainContainer);
+//        controllerFrame.getContentPane().add(pnlMainContainer);
+        controllerFrame.pack();
+
+        controllerFrame.setVisible(true);
+        //
+        controllerExe server = new controllerExe();
+        server.start(4545);
+    }
+    //
     public static byte[] msgBytes(String serializedMsg) {
         byte[] bytes = serializedMsg.getBytes(StandardCharsets.US_ASCII);
         return bytes;
@@ -400,9 +776,9 @@ public class controllerExe {
     }
     //
     public static void main(String[] args) {
-        controllerExe server = new controllerExe();
+        //1. create controller frame
+        createFrame();
         //
         // set port Id
-        server.start(4545);
     }
 }
