@@ -800,13 +800,13 @@ public class controllerExe {
         controllerFrame.setMinimumSize(controllerFrame.getPreferredSize());
         controllerFrame.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
-                controllerLogger.hostLog("exit", "closing window", "info");
+                controllerLogger.controllerLog("exit", "closing window", "info");
                 try {
-                    controllerLogger.hostLog("exit", "closing window", "info");
+                    controllerLogger.controllerLog("exit", "closing window", "info");
 //                    ctrlMsgr.stop(serverSocket);
                     ctrlMsgr.stop();
                 } catch (Throwable a) {
-                    controllerLogger.hostLog("exit", a.getMessage(), "error");
+                    controllerLogger.controllerLog("exit", a.getMessage(), "error");
 //                    System.out.println("Closing Window, can't stop connection\n" + a.getMessage());
 //                    a.printStackTrace();
                 }
@@ -987,23 +987,23 @@ public class controllerExe {
                     String startMid = "MID0001";
                     //append & log the input
                     appendDialog(dialogBox, "host message: \n" + startMid);
-                    controllerLogger.hostLog("controller2Host", "host message: " + startMid, "info");
+                    controllerLogger.controllerLog("controller2Host", "host message: " + startMid, "info");
 
                     //append & log the input
                     String integratorMsg = oPCS.integratorString(startMid);
                     appendDialog(dialogBox, "host message serialized: \n" + integratorMsg);
-                    controllerLogger.hostLog("controller2Host", "host message serialized: " + integratorMsg, "info");
+                    controllerLogger.controllerLog("controller2Host", "host message serialized: " + integratorMsg, "info");
 
                     //update button press
                     btnOpen.setText("close connection");
 
                     String serverResponse = ctrlMsgr.sendMessage(integratorMsg);
                     appendDialog(dialogBox, "controller message serialized: \n" + serverResponse);
-                    controllerLogger.hostLog("controller2Host", "controller message serialized: " + serverResponse, "info");
+                    controllerLogger.controllerLog("controller2Host", "controller message serialized: " + serverResponse, "info");
 
                     Object serverResponseParsed = oPCP.parseMessage(serverResponse);
                     appendDialog(dialogBox, "controller message parsed: \n" + serverResponseParsed);
-                    controllerLogger.hostLog("controller2Host", "controller message parsed: " + serverResponseParsed, "info");
+                    controllerLogger.controllerLog("controller2Host", "controller message parsed: " + serverResponseParsed, "info");
                 } else {
                     // close connection
                     ctrlMsgr.stop();
@@ -1016,17 +1016,17 @@ public class controllerExe {
                 //
                 String jsonTimestamp = zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSxxx"));
 //                    System.out.println("IO Exception in connection button\n" + o.getMessage() + "\n @ " + jsonTimestamp);
-                controllerLogger.hostLog("controller2Host", "IO Exception in connection button\n" + o.getMessage() + "\n @ " + jsonTimestamp, "error");
+                controllerLogger.controllerLog("controller2Host", "IO Exception in connection button\n" + o.getMessage() + "\n @ " + jsonTimestamp, "error");
 //                    o.printStackTrace();
             }
         });
         btnExit.addActionListener(e -> {
             try {
-                controllerLogger.hostLog("exit", "exit button", "info");
+                controllerLogger.controllerLog("exit", "exit button", "info");
 //                ctrlMsgr.stop(serverSocket);
                 ctrlMsgr.stop();
             } catch (Throwable b) {
-                controllerLogger.hostLog("exit", "Exit Button, can't stop connection\n" + b.getMessage(), "error");
+                controllerLogger.controllerLog("exit", "Exit Button, can't stop connection\n" + b.getMessage(), "error");
             }
             System.exit(0);
         });
