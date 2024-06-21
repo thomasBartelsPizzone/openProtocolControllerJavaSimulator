@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class controllerExe {
-    public JTextField ipString;
+    JTextField ipString;
     JTextField ctrlName;
     JTextField portString;
     JTextField initTimeout;
@@ -804,7 +804,8 @@ public class controllerExe {
                 try {
                     controllerLogger.controllerLog("exit", "closing window", "info");
 //                    ctrlMsgr.stop(serverSocket);
-                    ctrlMsgr.stop();
+                    int inputPortId = Integer.parseInt(portString.getText());
+                    ctrlMsgr.stop(serverSocket, inputPortId, replyTextArea);
                 } catch (Throwable a) {
                     controllerLogger.controllerLog("exit", a.getMessage(), "error");
 //                    System.out.println("Closing Window, can't stop connection\n" + a.getMessage());
@@ -977,36 +978,38 @@ public class controllerExe {
                 //
                 int inputPortId = Integer.parseInt(finalPortString.getText());
                 if ("open connection".equals(btnOpen.getText())) {
+                    serverSocket = new ServerSocket(inputPortId);
+                    while (true) {
+                        //                    start(inputPortId, replyTextArea);
+                        ctrlMsgr.openConnection(serverSocket, inputPortId, replyTextArea);
+                        //append & log the connection
+                        appendDialog(dialogBox, "Connection open\nListening on: " + inputPortId);
 
-//                    start(inputPortId, replyTextArea);
-                    ctrlMsgr.openConnection(serverSocket, inputPortId, replyTextArea);
-                    //append & log the connection
-                    appendDialog(dialogBox, "Connection open\nListening on: " + inputPortId);
+                        //
+                        String startMid = "MID0001";
+                        //append & log the input
+                        appendDialog(dialogBox, "host message: \n" + startMid);
+                        controllerLogger.controllerLog("controller2Host", "host message: " + startMid, "info");
 
-                    //
-                    String startMid = "MID0001";
-                    //append & log the input
-                    appendDialog(dialogBox, "host message: \n" + startMid);
-                    controllerLogger.controllerLog("controller2Host", "host message: " + startMid, "info");
+                        //append & log the input
+                        String integratorMsg = oPCS.integratorString(startMid);
+                        appendDialog(dialogBox, "host message serialized: \n" + integratorMsg);
+                        controllerLogger.controllerLog("controller2Host", "host message serialized: " + integratorMsg, "info");
 
-                    //append & log the input
-                    String integratorMsg = oPCS.integratorString(startMid);
-                    appendDialog(dialogBox, "host message serialized: \n" + integratorMsg);
-                    controllerLogger.controllerLog("controller2Host", "host message serialized: " + integratorMsg, "info");
+                        //update button press
+                        btnOpen.setText("close connection");
 
-                    //update button press
-                    btnOpen.setText("close connection");
+                        String serverResponse = ctrlMsgr.sendMessage(integratorMsg);
+                        appendDialog(dialogBox, "controller message serialized: \n" + serverResponse);
+                        controllerLogger.controllerLog("controller2Host", "controller message serialized: " + serverResponse, "info");
 
-                    String serverResponse = ctrlMsgr.sendMessage(integratorMsg);
-                    appendDialog(dialogBox, "controller message serialized: \n" + serverResponse);
-                    controllerLogger.controllerLog("controller2Host", "controller message serialized: " + serverResponse, "info");
-
-                    Object serverResponseParsed = oPCP.parseMessage(serverResponse);
-                    appendDialog(dialogBox, "controller message parsed: \n" + serverResponseParsed);
-                    controllerLogger.controllerLog("controller2Host", "controller message parsed: " + serverResponseParsed, "info");
+                        Object serverResponseParsed = oPCP.parseMessage(serverResponse);
+                        appendDialog(dialogBox, "controller message parsed: \n" + serverResponseParsed);
+                        controllerLogger.controllerLog("controller2Host", "controller message parsed: " + serverResponseParsed, "info");
+                    }
                 } else {
                     // close connection
-                    ctrlMsgr.stop();
+                    ctrlMsgr.stop(serverSocket, inputPortId, replyTextArea);
                     //update button press
                     btnOpen.setText("open connection");
                 }
@@ -1021,19 +1024,16 @@ public class controllerExe {
             }
         });
         btnExit.addActionListener(e -> {
+            int inputPortId = Integer.parseInt(finalPortString.getText());
             try {
                 controllerLogger.controllerLog("exit", "exit button", "info");
-//                ctrlMsgr.stop(serverSocket);
-                ctrlMsgr.stop();
+                // close connection
+                ctrlMsgr.stop(serverSocket, inputPortId, replyTextArea);
             } catch (Throwable b) {
                 controllerLogger.controllerLog("exit", "Exit Button, can't stop connection\n" + b.getMessage(), "error");
             }
             System.exit(0);
         });
-    }
-    //
-    public byte[] msgBytes(String serializedMsg) {
-        return serializedMsg.getBytes(StandardCharsets.US_ASCII);
     }
     //
     public static void main(String[] args) throws IOException {

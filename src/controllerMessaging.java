@@ -43,7 +43,8 @@ public class controllerMessaging {
         } finally {
             assert serverSocket != null;
 //            stop(serverSocket);
-            stop();
+//            stop(port, textReceive);
+            stop(serverSocket, port, textReceive);
         }
 //        return clientSocket;
     }
@@ -111,12 +112,15 @@ public class controllerMessaging {
         return serializedMsg.getBytes(StandardCharsets.US_ASCII);
     }
     //
-    void stop() {
+    void stop(ServerSocket serverSocket, int inputPortId, JTextArea textReceive){
+//    void stop(int inputPortId, JTextArea textReceive) {
 //        void stop(ServerSocket serverSocket) {
         try {
-            clientSocket.close();
-//            controllerExe.appendDialog(dialogBox, "Closed connection on:\n" + inputIdAddress + ": " + inputPortId);
-//            controllerLogger.controllerLog("controller2Host", "host closed connected to " + inputIdAddress + ": " + inputPortId, "info");
+//            clientSocket.close();
+            serverSocket.close();
+            controllerExe.appendDialog(textReceive, "Closed connection on:\n" + clientSocket.getRemoteSocketAddress() + ": " + inputPortId);
+            controllerLogger.controllerLog("controller2Host", "host closed connected to "
+                    + clientSocket.getRemoteSocketAddress() + ": " + inputPortId, "info");
 //            serverSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
