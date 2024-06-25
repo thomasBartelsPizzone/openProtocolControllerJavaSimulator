@@ -15,7 +15,7 @@ public class MID0091 {
     }
     //
     // MID 0091 Multi-spindle status data
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midLengthString = null;
         String midRevision = "001";

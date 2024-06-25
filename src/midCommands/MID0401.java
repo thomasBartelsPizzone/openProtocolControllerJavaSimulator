@@ -15,7 +15,7 @@ public class MID0401 {
     }
     //
     // MID 0401 Automatic/Manual mode
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midLengthString = "0021";
         String midRevision = "001";

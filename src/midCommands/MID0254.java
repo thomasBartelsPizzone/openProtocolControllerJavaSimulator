@@ -19,7 +19,7 @@ public class MID0254 {
     }
     //
     // MID 0254 Selector control green lights
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0034";
         String midRevision = "001";

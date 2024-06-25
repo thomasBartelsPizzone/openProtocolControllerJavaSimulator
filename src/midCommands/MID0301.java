@@ -11,7 +11,7 @@ public class MID0301 {
     }
     //
     // MID 0301 Histogram upload reply
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0107";
         String midRevision = "001";

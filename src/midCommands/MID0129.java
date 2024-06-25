@@ -19,7 +19,7 @@ public class MID0129 {
     }
     //
     // MID 0129 Job batch decrement
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midAckFlag = "0";
         String midStationID = "00";

@@ -11,7 +11,7 @@ public class MID0002 {
     }
     //
     // MID 0002 Communication start acknowledge
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midAckFlag = "0";
         String midStationID = "00";

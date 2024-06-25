@@ -19,7 +19,7 @@ public class MID0111 {
     }
     //
     // MID 0111 Display user text on graph
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         String midLengthString = "0137";
         String midRevision = "001";
         String midAckFlag = "0";

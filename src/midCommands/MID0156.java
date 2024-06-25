@@ -15,7 +15,7 @@ public class MID0156 {
     }
     //
     // MID 0156 Bypass Identifier
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         String midLengthString = "0020";
         String midRevision = "001";
         String midAckFlag = "0";

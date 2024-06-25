@@ -19,7 +19,7 @@ public class MID0110 {
     }
     //
     // MID 0110 Display user text on compact
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0024";
         String midRevision = "001";

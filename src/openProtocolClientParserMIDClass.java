@@ -60,6 +60,37 @@ public class openProtocolClientParserMIDClass {
         System.out.println("what was integrationString\n" + controllerMessageMap);
         return controllerMessageMap;
     }
+    public String getReply(String controllerMessage) {
+//        System.out.println("parseMessage\n " + controllerMessage);
+        //
+        String mid;
+        String midCommand;
+        String midLengthString;
+        String midRevisionString;
+        String replyMID = null;
+        //
+        mid = getMID(controllerMessage);
+        //
+        midCommand = "MID" + mid;
+        //
+        String midPackage = "midCommands" + "." + midCommand;
+        //
+        Class<?>[] integratorMidInputTypes = {String.class};
+        // Get the reply command if available
+//        String answer = "acknowledge";
+        try {
+            //
+            Object integratorMidClassObj = Class.forName(midPackage).getDeclaredConstructor().newInstance();
+            Class<?> integratorMidClass = integratorMidClassObj.getClass();
+            Method integratorMidMethod = integratorMidClass.getDeclaredMethod("replyMID", integratorMidInputTypes);
+            //
+            replyMID = (String) integratorMidMethod.invoke(integratorMidMethod, "acknowledge");
+        } catch(Throwable e) {
+            System.out.println("Something went wrong\n" + e.getMessage());
+            e.printStackTrace();
+        }
+        //
+        System.out.println("what was integrationString\n" + replyMID);
+        return replyMID;
+    }
 }
-//--MID0002
-//--MID0002

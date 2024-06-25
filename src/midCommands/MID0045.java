@@ -19,7 +19,7 @@ public class MID0045 {
     }
     //
     // MID 0045 Set calibration value request
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midLengthString = "0031";
         String midRevision = "001";

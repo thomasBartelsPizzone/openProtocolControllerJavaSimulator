@@ -11,33 +11,31 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class controllerExe {
-    JTextField ipString;
-    JTextField ctrlName;
-    JTextField portString;
-    JTextField initTimeout;
-    JTextField timeoutDelay;
+    // initialized variables
+    public JTextField ipString;
+    public JTextField portString;
+    public JTextField initTimeout;
+    public JTextField timeoutDelay;
+    public JTextField ctrlName;
     String[][] midReplyCmds;
     public JComboBox<String[]> midCmdCB;
-    JTextArea replyTextArea;
-    JTextField searchField;
-    JComboBox<String> filteredReplies;
-    JTextField selectedReplyField;
     public String midString;
     public JTextField midInputString;
-    JTextField serializedMidString;
-    JButton btnOpen;
+    public JTextField serializedMidString;
+    public JButton btnOpen;
     public JButton btnSendMid;
-    JButton btnSendSerializedMid;
-    JButton btnAutoMidMode;
+    public JButton btnSendSerializedMid;
     public JTextArea dialogBox;
+    JButton btnAutoMidMode;
     openProtocolClientParserMIDClass oPCP = new openProtocolClientParserMIDClass();
     openProtocolClientSerializerMIDClass oPCS = new openProtocolClientSerializerMIDClass();
-//    controllerMessaging ctrlMsgr = new controllerMessaging();
     // Controller Frame
     JFrame controllerFrame = new JFrame("Controller");
-//    ServerSocket serverSocket;
-
+    // ServerSocket & Client Socket
     ServerSocket serverSocket = null;
+    Socket clientSocket = null;
+    public DataOutputStream os;
+    public InputStreamReader input;
     public String[][] relpyCmdList() {
         return new String[][]{//{"       ", "       "},
                 {"1", "MID0011", "00290011001000000000002001002"},
@@ -57,207 +55,66 @@ public class controllerExe {
         };
     }
     //
-    // class for client handling
-//    public static class opClientHandler extends Thread {
-//        public openProtocolClientParserMIDClass oPCP = new openProtocolClientParserMIDClass();
-//        public ServerSocket server;
-//        public Socket clientSocket;
-//        public int port;
-//        public BufferedReader readerIn;
-//        public DataOutputStream os;
-//        public InputStreamReader input;
-//        //
-//        public JTextArea textReceive;
-//        public JTextArea textReply;
-//        public JTextArea textManualReply;
-//        //
-//        public opClientHandler(ServerSocket servSocket, Socket socket, int portId, JTextArea tRec, JTextArea tRep, JTextArea tMRep) {
-//            this.clientSocket = socket;
-//            //
-//            this.port = portId;
-//            this.server = servSocket;
-//            //
-//            this.textReceive = tRec;
-//            this.textReply = tRep;
-//            this.textManualReply = tMRep;
-//        }
-//        //
-//        public void run() {
-//            System.out.println("called run again");
-//            String controllerMid;
-//            String errorCode = "01";
-//            List<Object> inputCommandList = new ArrayList<>();
-//            //
-//            String replyMessage = null;
-//            String inputLine;
-//            //
-//            HashMap<String, String> ctrlRespMessage = new HashMap<>();
-//
-//            ctrlRespMessage.put("MID0002", "00570002001000000000010001020103pAirBg1000000000000000000");
-//            ctrlRespMessage.put("MID0011", "00290011001000000000002001002");
-//            // ctrlRespMessage.put("MID0013", "010400130010000000000100102pAirBg10000000000000000000310403050012000600150007001400080036009007201000480");
-//            ctrlRespMessage.put("MID0013", "0104001300100000000001004028N-m                     0310401050007000600080007000700080000009000001000000 ");
-//            // ctrlRespMessage.put("MID0031", "00260031001000000000020102");
-//            ctrlRespMessage.put("MID0031", "0088003100200000000000160001000200030004000500060007000800090010001100120013001400150016 ");
-//            // ctrlRespMessage.put("MID0033", "0103003300100000000001010225AsciiCharacters00000000030040009050000506007008009010011012011315:011:0:22;");
-//            ctrlRespMessage.put("MID0033", "01000033001000000000011202PWR Steering Ln 18N-m    031040000050000006007108009110011011200:002:1:01;");
-//            // ctrlRespMessage.put("MID0041", "0081004100000000000001C3412120000000025487960000032024-05-06:13:24:54046709190000");
-//            ctrlRespMessage.put("MID0041", "01560041002000000000010120102625    020000000015032020-01-25:00:00:0004000000049005000000062020-01-25:00:00:000700000000000809090010100111.2.2               ");
-//            //ctrlRespMessage.put("MID0061", "02310061001000000000010001020103pAirBg300000000000000000004K7B9X3P2DRFGHJQ0000000000050006003070000080000090100111120008401300140014001200150007391600000170999918000001900000202024-01-10:09:54:09212024-01-10:12:34:33221233456750000");
-//            ctrlRespMessage.put("MID0061", "050000610041        010000020003                         04                         050005060040710080000509000110000111112113114115116117118019120000000000021000700220008002300070024000710250000026000002700000280000029000003000000310000032000330003400035000000360000003700000038000000390000004000000041000000002242000324300000440120102625    452024-02-27:16:40:12462024-02-07:11:58:20478N-m                     478512963                         51                         52                          ");
-//            ctrlRespMessage.put("MID0065", "0118006500100000000001456789000002pAirBg000000000000000000003001040020050060070080014670900046102005-06-24:13:29:12142112");
-//            try {
-//                //2.b. get buffer reader / writer
-//                readerIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-//                // dataInStr = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
-//                input = new InputStreamReader(clientSocket.getInputStream());
-//                os = new DataOutputStream(clientSocket.getOutputStream());
-//                //
-//                System.out.println("in the while");
-//                boolean keepOpen = true;
-//                while (keepOpen) {
-//                    // inputLine = readBytes(dataInStr);
-//                    inputLine = readBytesFully(input);
-//                    if (inputLine != null && !"null".equals(inputLine) && !"".equals(inputLine)) {
-//                        //
-//                        System.out.println("client input command\n" + inputLine);
-//                        String integratorMid = oPCP.getMID(inputLine);
-//                        //
-//                        String midCommand = "MID" + integratorMid;
-//                        System.out.println("the mid command was: " + midCommand);
-//
-//                        appendDialog(textReceive, "\nintegrator command: " + midCommand);
-//                        // appendDialog(textReceive, "input message: ");
-//                        appendDialog(textReceive, inputLine);
-//                        // Get the reply command if available
-//                        String answer = "acknowledge";
-//                        Class<?>[] integratorMidInputTypes = {String.class};
-//                        try {
-//                            Object integratorMidObj = Class.forName(midCommand).getDeclaredConstructor().newInstance();
-//                            Class<?> integratorMidClass = integratorMidObj.getClass();
-//                            Method integratorMidMethod = integratorMidClass.getDeclaredMethod("replyMID", integratorMidInputTypes);
-//                            try {
-//                                controllerMid = (String) integratorMidMethod.invoke(integratorMidObj, answer);
-//                                System.out.println("reply to integrator msg is " + controllerMid);
-//                                textReceive.append("controller Reply command: " + controllerMid);
-//                                // Build the reply
-//                                Class<?>[] controllerMidInputTypes = {String.class, List.class};
-//                                try {
-//                                    Object controllerMidObj = Class.forName(controllerMid).getDeclaredConstructor().newInstance();
-//                                    Class<?> controllerMidClass = controllerMidObj.getClass();
-//                                    Method controllerMidMethod = controllerMidClass.getDeclaredMethod("integratorString", controllerMidInputTypes);
-//                                    label:
-//                                    switch (Objects.requireNonNull(controllerMid)) {
-//                                        case "MID0005":
-//                                            inputCommandList.add(integratorMid);
-//                                            replyMessage = (String) controllerMidMethod.invoke(controllerMidObj, controllerMid.substring(3), inputCommandList);
-//                                            //
-//                                            break;
-//                                        case "MID0004":
-//                                            inputCommandList.add(integratorMid);
-//                                            inputCommandList.add(errorCode);
-//                                            replyMessage = (String) controllerMidMethod.invoke(controllerMidObj, controllerMid.substring(3), inputCommandList);
-//                                        case "MID0003":
-//                                            //close client socket
-//                                            keepOpen = false;
-//                                            break;
-//                                        case "MID9999":
-//                                            replyMessage = inputLine;
-//                                            // replyMessage = null;
-//                                            break;
-//                                        default:
-//                                            replyMessage = ctrlRespMessage.get(controllerMid);
-//                                            break;
-//                                    }
-//                                } catch (ClassNotFoundException e) {
-//                                    replyMessage = null;
-//                                    ZonedDateTime zonedDateTime = ZonedDateTime.now();
-//                                    //String jsonTimestamp = zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSxxx").withZone(ZoneId.of("GMT")));
-//                                    String jsonTimestamp = zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSxxx"));
-//                                    System.out.println("building reply message from class's serializer\n" + e.getMessage() + "\n @ " + jsonTimestamp);
-//                                    e.printStackTrace();
-//                                    // break;
-//                                }
-//                                //4. update dialog box with message.
-//                                //  Thread.sleep(3500);
-//                                //  Thread.sleep(1500);
-//                                //  Thread.sleep(7500);
-//                                //  Thread.sleep(25500);
-//                                appendDialog(textReply, "reply message:\n" + replyMessage + "\n");
-//                                os.write(msgBytes(replyMessage + "\0"));
-//                                //                            os.write(msgBytes(replyMessage+"\0"+"\n"));
-//                                // os.write(msgBytes(replyMessage+"NUL"));
-//                                os.flush();
-//                                System.out.println("wrote reply");
-//                                System.out.println(replyMessage);
-//                            } catch (NullPointerException n) {
-//                                System.out.println("this should close the while");
-//                                ZonedDateTime zonedDateTime = ZonedDateTime.now();
-//
-//                                String jsonTimestamp = zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSxxx"));
-//                                System.out.println("@ " + jsonTimestamp);
-//                                replyMessage = null;
-//                                keepOpen = false;
-//                                //break;
-//                                //  Thread.sleep(1500);
-//                                //  Thread.sleep(25500);
-////                                os.write(msgBytes(replyMessage + "\0"));
-//                                os.flush();
-//                                break;
-//                            }
-//                        } catch (ClassNotFoundException | NoSuchMethodException e) {
-//                            ZonedDateTime zonedDateTime = ZonedDateTime.now();
-//
-//                            String jsonTimestamp = zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSxxx"));
-//                            System.out.println("reply command from integrator class failed\n" + e.getMessage() + "\n @ " + jsonTimestamp);
-//                            e.printStackTrace();
-//                        }
-//                    } else {
-//                        System.out.println("empty input string");
-//                        System.out.println("client input command\n" + inputLine);
-//                    }
-//                }
-//                appendDialog(textReceive, "\n");
-//                os.close();
-//            } catch (IOException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-//                ZonedDateTime zonedDateTime = ZonedDateTime.now();
-//                String jsonTimestamp = zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSxxx").withZone(ZoneId.of("GMT")));
-//                System.out.println("Something went wrong in run\n" + e.getMessage() + "\n @ " + jsonTimestamp);
-//                e.printStackTrace();
-//            }
-//        }
-//        //
-//        protected String readBytesFully(InputStreamReader in) throws IOException, IllegalArgumentException {
-//            System.out.println("in readBytesFully");
-//
-//            String returnString = null;
-//            int n = 0;
-//            int maxStr = 9980;
-//            int[] bS = new int[maxStr];
-//            // boolean cont = true;
-//            // while (cont && n < maxStr) {
-//            while (n < maxStr) {
-//                int b = in.read();
-//                if (b == 0) {
-//                    //cont = false;
-//                    break;
-//                } else if (b != -1) {
-//                    bS[n] = b;
-//                } else {
-//                    // cont = false;
-//                    break;
-//                }
-//                n += 1;
-//            }
-//            returnString = new String(bS, 0, n);
-//            System.out.println("returnString\n" + returnString);
-//            return returnString;
-//        }
-//    }
+    public void acceptCall() {
+        try {
+            clientSocket = serverSocket.accept();
+            int checkPeriod = (int) Float.parseFloat(timeoutDelay.getText());
+            clientSocket.setSoTimeout(checkPeriod);
+            clientSocket.setSoLinger(true, 1);
+        } catch (Throwable e) {
+            ZonedDateTime zonedDateTime = ZonedDateTime.now();
+            String jsonTimestamp = zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSxxx").withZone(ZoneId.of("GMT")));
+            System.out.println("Something went wrong in acceptCall\n" + e.getMessage() + "\n @ " + jsonTimestamp);
+            e.printStackTrace();
+        }
+//        return cSckt;
+    }
     //
-    static void appendDialog(JTextArea tArea, String dialog){
-        tArea.append(dialog);
-        tArea.append("\n");
+    public void stop() {
+        try {
+            os.close();
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    //
+    public String sendMessage(String msg) {
+        try {
+            os.write(msgBytes(msg));
+            os.flush();
+            String inputStreamReaderReturn = readFully(input);
+            System.out.println("the InputStreamReader Method: " + inputStreamReaderReturn);
+            return inputStreamReaderReturn;
+        } catch (IOException e) {
+            System.out.println("IO Exception in sendMessage\n" + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+    //
+    byte[] msgBytes(String serializedMsg) {
+        return serializedMsg.getBytes(StandardCharsets.US_ASCII);
+    }
+    //
+    public String readFully(InputStreamReader in) throws IOException {
+        String returnString;
+        int n = 0;
+        int maxStr = 9999;
+        int[] bS = new int[maxStr];
+        while (n < maxStr) {
+            int b = in.read();
+            if (b == 0) {
+                break;
+            } else if (b != -1) {
+                bS[n] = b;
+            } else {
+                break;
+            }
+            n += 1;
+        }
+        returnString = new String(bS, 0, n);
+        return returnString;
     }
     //
     public JPanel connectPanel(double pnlWRatio1)  {
@@ -683,102 +540,6 @@ public class controllerExe {
         return pnlDialogContainer;
     }
     //
-//    public static void createDialog(ServerSocket serverSocket, Socket clientSocket, int port, JTextArea textReceive, JTextArea textReply, JTextArea textManualReply) {
-//        //
-//        JFrame frame = new JFrame("Controller " + serverSocket.getInetAddress().getHostName() + ": " + port);
-//        JPanel mainContainer = new JPanel();
-//        // frame.setSize(800, 1280);
-//        frame.addWindowListener(new java.awt.event.WindowAdapter() {
-//            public void windowClosing(java.awt.event.WindowEvent e) {
-//                try {
-//                    serverSocket.close();
-//                } catch (IOException ex) {
-//                    throw new RuntimeException(ex);
-//                }
-//                System.exit(0);
-//            }
-//        });
-//        //
-//        textReceive.setLineWrap(true);
-//        textReceive.setColumns(100);
-//        textReceive.setRows(20);
-//        // test
-//        appendDialog(textReceive, serverSocket + ": " + port);
-//        JPanel pnlReceive = new JPanel();
-//        pnlReceive.setLayout(new BorderLayout());
-//        JScrollPane scrollReceive = new JScrollPane(textReceive);
-//        pnlReceive.add(scrollReceive, BorderLayout.CENTER);
-//        pnlReceive.setBorder(BorderFactory.createEtchedBorder());
-//        //
-//        textReply.setLineWrap(true);
-//        textReply.setColumns(100);
-//        textReply.setRows(25);
-//        JPanel pnlSend = new JPanel();
-//        pnlSend.setLayout(new BorderLayout());
-//        JScrollPane scrollSend = new JScrollPane(textReply);
-//        pnlSend.add(scrollSend, BorderLayout.CENTER);
-//        pnlSend.setBorder(BorderFactory.createEtchedBorder());
-//        //
-//        textManualReply.setLineWrap(true);
-//        textManualReply.setColumns(100);
-//        textManualReply.setRows(10);
-//        JPanel pnlManualSend = new JPanel();
-//        pnlManualSend.setLayout(new BorderLayout());
-//        JScrollPane scrollManualSend = new JScrollPane(textManualReply);
-//        pnlManualSend.add(scrollManualSend, BorderLayout.CENTER);
-//        pnlManualSend.setBorder(BorderFactory.createEtchedBorder());
-//        //
-//        JButton exit = new JButton("Exit");
-//        JButton manualSend = new JButton("Send");
-//        //
-//        JPanel pnlEnd = new JPanel();
-//        //
-//        pnlEnd.add(exit);
-//        pnlEnd.add(manualSend);
-//        //
-//        mainContainer.setLayout(new BoxLayout(mainContainer, BoxLayout.Y_AXIS));
-//        mainContainer.add(pnlReceive);
-//        mainContainer.add(pnlSend);
-//        mainContainer.add(pnlManualSend);
-//        mainContainer.add(pnlEnd);
-//        //
-//        frame.add(mainContainer);
-//        frame.pack();
-//
-//        frame.setVisible(true);
-//
-//        manualSend.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                //
-//                try {
-//                    DataOutputStream os = new DataOutputStream(clientSocket.getOutputStream());
-//                    appendDialog(textReply, "reply message:\n" + textManualReply.getText() + "\n");
-//                    os.write(msgBytes(textManualReply.getText() + "\0"));
-//                    System.out.println("wrote bytes");
-//                    os.flush();
-//                } catch (IOException o) {
-//                    ZonedDateTime zonedDateTime = ZonedDateTime.now();
-//                    //
-//                    String jsonTimestamp = zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSxxx"));
-//                    System.out.println("IO Exception in dialog box send button\n" + o.getMessage() + "\n @ " + jsonTimestamp);
-//                    o.printStackTrace();
-//                }
-//            }
-//        });
-//
-//        exit.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                try {
-//                    serverSocket.close();
-//                } catch (IOException ex) {
-//                    throw new RuntimeException(ex);
-//                }
-//                System.exit(0);
-//            }
-//        });
-//    }
-    //
     public void createFrame() throws IOException {
         controllerMessaging ctrlMsgr = new controllerMessaging();
         // ScreenSize
@@ -805,7 +566,7 @@ public class controllerExe {
                     controllerLogger.controllerLog("exit", "closing window", "info");
 //                    ctrlMsgr.stop(serverSocket);
                     int inputPortId = Integer.parseInt(portString.getText());
-                    ctrlMsgr.stop(serverSocket, inputPortId, replyTextArea);
+                    ctrlMsgr.stop(serverSocket, inputPortId, dialogBox);
                 } catch (Throwable a) {
                     controllerLogger.controllerLog("exit", a.getMessage(), "error");
 //                    System.out.println("Closing Window, can't stop connection\n" + a.getMessage());
@@ -962,54 +723,86 @@ public class controllerExe {
         controllerFrame.setContentPane(pnlMainContainer);
 //        controllerFrame.getContentPane().add(pnlMainContainer);
         controllerFrame.pack();
-        //
-        JTextField finalPortString = portString;
-        JTextField finalInitTimeout = initTimeout;
-        JTextField finalTimeoutDelay = timeoutDelay;
 
         controllerFrame.setTitle("Controller");
         controllerFrame.setVisible(true);
+
+        //
+
+        JTextField finalIpString = ipString;
+        JTextField finalPortString = portString;
+        JTextField finalInitTimeout = initTimeout;
+        JTextField finalTimeoutDelay = timeoutDelay;
 
 //        //3. Open controller to connection
 //        server.start(controllerPortId);
         btnOpen.addActionListener(a -> {
             //
             try {
-                //
+                String inputIdAddress = finalIpString.getText();
                 int inputPortId = Integer.parseInt(finalPortString.getText());
+                int initDelay = (int) Float.parseFloat(finalInitTimeout.getText());
+                int checkPeriod = (int) Float.parseFloat(finalTimeoutDelay.getText());
+
                 if ("open connection".equals(btnOpen.getText())) {
                     serverSocket = new ServerSocket(inputPortId);
-                    while (true) {
-                        //                    start(inputPortId, replyTextArea);
-                        ctrlMsgr.openConnection(serverSocket, inputPortId, replyTextArea);
-                        //append & log the connection
-                        appendDialog(dialogBox, "Connection open\nListening on: " + inputPortId);
+                    System.out.println("server socket checks: ");
+                    System.out.println("1-" + serverSocket.getLocalSocketAddress());
+                    System.out.println("2-" + serverSocket.getLocalSocketAddress().toString());
+                    System.out.println("3-" + serverSocket.getInetAddress());
+                    System.out.println("4-" + serverSocket.getInetAddress().getCanonicalHostName());
+                    System.out.println("5-" + serverSocket.getInetAddress().getHostAddress());
+                    System.out.println("6-" + Arrays.toString(serverSocket.getInetAddress().getAddress()));
+                    System.out.println("7-" + serverSocket.getInetAddress().getHostName());
+                    serverSocket.setSoTimeout(initDelay);
+//                    while (true) {
+                    // 1.a. accept call?
+//                    clientSocket = (Socket) acceptCall();
+                    acceptCall();
+                    System.out.println("client socket checks: ");
+                    System.out.println("1-" + clientSocket.getRemoteSocketAddress());
+                    System.out.println("2-" + clientSocket.getRemoteSocketAddress().toString());
+                    System.out.println("3-" + clientSocket.getOutputStream());
+                    System.out.println("4-" + clientSocket.getOutputStream().toString());
+                    System.out.println("5-" + clientSocket.getLocalAddress());
+                    System.out.println("6-" + clientSocket.getLocalAddress().getHostName());
+                    System.out.println("7-" + clientSocket.getLocalAddress().getHostAddress());
+                    System.out.println("8-" + Arrays.toString(clientSocket.getLocalAddress().getAddress()));
+                    System.out.println("9-" + clientSocket.getLocalAddress().getCanonicalHostName());
+                    System.out.println("10-" + clientSocket.getInetAddress());
+                    System.out.println("11-" + clientSocket.getInetAddress().getCanonicalHostName());
+                    System.out.println("12-" + clientSocket.getInetAddress().getHostAddress());
+                    System.out.println("13-" + Arrays.toString(clientSocket.getInetAddress().getAddress()));
+                    System.out.println("14-" + clientSocket.getInetAddress().getHostName());
+                    System.out.println("15-" + clientSocket.getLocalSocketAddress());
+                    System.out.println("client socket checks: ");
+                    //append & log the connection
+                    appendDialog(dialogBox, "Connection open\nListening on: " + inputPortId);
+                    //
+                    String startMid = "MID0002";
+                    //append & log the input
+                    appendDialog(dialogBox, "controller message: \n" + startMid);
+                    controllerLogger.controllerLog("controller2Host", "controller message: " + startMid, "info");
 
-                        //
-                        String startMid = "MID0001";
-                        //append & log the input
-                        appendDialog(dialogBox, "host message: \n" + startMid);
-                        controllerLogger.controllerLog("controller2Host", "host message: " + startMid, "info");
+                    //append & log the input
+                    String controllerMsg = oPCS.integratorString(startMid);
+                    appendDialog(dialogBox, "controller message serialized: \n" + controllerMsg);
+                    controllerLogger.controllerLog("controller2Host", "host message serialized: " + controllerMsg, "info");
 
-                        //append & log the input
-                        String integratorMsg = oPCS.integratorString(startMid);
-                        appendDialog(dialogBox, "host message serialized: \n" + integratorMsg);
-                        controllerLogger.controllerLog("controller2Host", "host message serialized: " + integratorMsg, "info");
+                    //update button press
+                    btnOpen.setText("close connection");
 
-                        //update button press
-                        btnOpen.setText("close connection");
+                    String hostResponse = sendMessage(controllerMsg);
+                    appendDialog(dialogBox, "controller message serialized: \n" + hostResponse);
+                    controllerLogger.controllerLog("controller2Host", "controller message serialized: " + hostResponse, "info");
 
-                        String serverResponse = ctrlMsgr.sendMessage(integratorMsg);
-                        appendDialog(dialogBox, "controller message serialized: \n" + serverResponse);
-                        controllerLogger.controllerLog("controller2Host", "controller message serialized: " + serverResponse, "info");
-
-                        Object serverResponseParsed = oPCP.parseMessage(serverResponse);
-                        appendDialog(dialogBox, "controller message parsed: \n" + serverResponseParsed);
-                        controllerLogger.controllerLog("controller2Host", "controller message parsed: " + serverResponseParsed, "info");
-                    }
+                    Object hostResponseParsed = oPCP.parseMessage(hostResponse);
+                    appendDialog(dialogBox, "controller message parsed: \n" + hostResponseParsed);
+                    controllerLogger.controllerLog("controller2Host", "controller message parsed: " + hostResponseParsed, "info");
+//                    }
                 } else {
                     // close connection
-                    ctrlMsgr.stop(serverSocket, inputPortId, replyTextArea);
+                    stop();
                     //update button press
                     btnOpen.setText("open connection");
                 }
@@ -1018,22 +811,95 @@ public class controllerExe {
                 ZonedDateTime zonedDateTime = ZonedDateTime.now();
                 //
                 String jsonTimestamp = zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSxxx"));
-//                    System.out.println("IO Exception in connection button\n" + o.getMessage() + "\n @ " + jsonTimestamp);
                 controllerLogger.controllerLog("controller2Host", "IO Exception in connection button\n" + o.getMessage() + "\n @ " + jsonTimestamp, "error");
-//                    o.printStackTrace();
             }
         });
+        btnSendMid.addActionListener(b -> {
+            //
+            try {
+                String midCommand = null;
+//                if (midCmdCB.getItemAt(0).isEmpty()) {
+//                    midCommand = midString;
+//                } else {
+//                    midCommand = midCmdCB.getEditor().getItem().toString();
+//                }
+                System.out.println("the combobox input was : " + midCommand);
+                String midValues = midInputString.getText();
+                //append & log the input
+                appendDialog(dialogBox, "controller message: \n" + midCommand + " " + midValues);
+                controllerLogger.controllerLog("controller2Host", "controller message: " + midCommand + " " + midValues, "info");
+
+                //append & log the input
+                String integratorMsg = oPCS.integratorString(midCommand + " " + midValues);
+                appendDialog(dialogBox, "controller message serialized: \n" + integratorMsg);
+                controllerLogger.controllerLog("controller2Host", "controller message serialized: " + integratorMsg, "info");
+
+                String hostResponse = sendMessage(integratorMsg);
+                appendDialog(dialogBox, "controller message serialized: \n" + hostResponse);
+                controllerLogger.controllerLog("controller2Host", "controller message serialized: " + hostResponse, "info");
+
+                Object hostResponseParsed = oPCP.parseMessage(hostResponse);
+                appendDialog(dialogBox, "controller message parsed: \n" + hostResponseParsed);
+                controllerLogger.controllerLog("controller2Host", "controller message parsed: " + hostResponseParsed, "info");
+
+            } catch (Throwable o) {
+                ZonedDateTime zonedDateTime = ZonedDateTime.now();
+                //
+                String jsonTimestamp = zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSxxx"));
+                controllerLogger.controllerLog("controller2Host", "IO Exception in mid send button\n" + o.getMessage() + "\n @ " + jsonTimestamp, "error");
+            }
+        });
+        btnSendSerializedMid.addActionListener(c -> {
+            //
+            try {
+                String serializedMidCommand = serializedMidString.getText();
+                //append & log the input
+                appendDialog(dialogBox, "host message: \n" + serializedMidCommand);
+                controllerLogger.controllerLog("controller2Host", "host message: " + serializedMidCommand, "info");
+                // check last two characters
+                int msgLength = serializedMidCommand.length();
+                String lastTwoChars = serializedMidCommand.substring(Math.max(msgLength - 2, 0));
+                System.out.println("last two chars were? " + lastTwoChars);
+                if ("\0".equals(lastTwoChars)) {
+                    String hostResponse = sendMessage(serializedMidCommand);
+                    appendDialog(dialogBox, "controller message serialized: \n" + hostResponse);
+                    controllerLogger.controllerLog("controller2Host", "controller message serialized: " + hostResponse, "info");
+
+                    Object hostResponseParsed = oPCP.parseMessage(hostResponse);
+                    appendDialog(dialogBox, "controller message parsed: \n" + hostResponseParsed);
+                    controllerLogger.controllerLog("controller2Host", "controller message parsed: " + hostResponseParsed, "info");
+                } else {
+                    String hostResponse = sendMessage(serializedMidCommand + "\0");
+                    appendDialog(dialogBox, "controller message serialized: \n" + hostResponse);
+                    controllerLogger.controllerLog("controller2Host", "controller message serialized: " + hostResponse, "info");
+
+                    Object hostResponseParsed = oPCP.parseMessage(hostResponse);
+                    appendDialog(dialogBox, "controller message parsed: \n" + hostResponseParsed);
+                    controllerLogger.controllerLog("controller2Host", "controller message parsed: " + hostResponseParsed, "info");
+                }
+            } catch (Throwable o) {
+                ZonedDateTime zonedDateTime = ZonedDateTime.now();
+                //
+                String jsonTimestamp = zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSxxx"));
+                controllerLogger.controllerLog("controller2Host", "IO Exception in serialized mid send button\n" + o.getMessage() + "\n @ " + jsonTimestamp, "error");
+                }
+        });
+        //
         btnExit.addActionListener(e -> {
-            int inputPortId = Integer.parseInt(finalPortString.getText());
             try {
                 controllerLogger.controllerLog("exit", "exit button", "info");
                 // close connection
-                ctrlMsgr.stop(serverSocket, inputPortId, replyTextArea);
+                stop();
             } catch (Throwable b) {
                 controllerLogger.controllerLog("exit", "Exit Button, can't stop connection\n" + b.getMessage(), "error");
             }
             System.exit(0);
         });
+    }
+    //
+    void appendDialog(JTextArea tArea, String dialog){
+        tArea.append(dialog);
+        tArea.append("\n");
     }
     //
     public static void main(String[] args) throws IOException {

@@ -15,7 +15,7 @@ public class MID0152 {
     }
     //
     // MID 0153 Multiple identifiers work order acknowledge
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midLengthString = "0148";
         String midRevision = "001";

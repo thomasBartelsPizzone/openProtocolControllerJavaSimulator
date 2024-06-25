@@ -15,7 +15,7 @@ public class MID0421 {
     }
     //
     // MID 0421 Open Protocol commands disabled
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0020";
         String midRevision = "001";

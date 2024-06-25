@@ -11,7 +11,7 @@ public class MID0215 {
     }
     //
     // MID 0215 IO device status reply
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midRevision = "002";
         String midAckFlag = "0";

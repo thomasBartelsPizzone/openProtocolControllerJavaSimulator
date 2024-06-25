@@ -15,7 +15,7 @@ public class MID0107 {
     }
     //
     // MID 0107 Last PowerMACS tightening result Bolt data
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         // String midLengthString = "0020";
         String midLengthString = null;

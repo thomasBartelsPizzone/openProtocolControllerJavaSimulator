@@ -15,7 +15,7 @@ public class MID0076 {
     }
     //
     // MID 0076 Alarm status
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         // String midLengthString = "0056";
         // String midRevision = "000";

@@ -15,7 +15,7 @@ public class MID0411 {
     }
     //
     // MID 0411 AutoDisable settings reply
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0020";
         String midRevision = "001";

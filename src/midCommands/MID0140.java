@@ -19,7 +19,7 @@ public class MID0140 {
     }
     //
     // MID 0140 Execute dynamic Job request
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         // String midRevision = "000";
          String midRevision = "001";
 //        String midRevision = "002";

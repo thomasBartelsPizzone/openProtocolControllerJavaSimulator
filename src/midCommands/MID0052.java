@@ -17,7 +17,7 @@ public class MID0052 {
     }
     //
     // MID 0052 Vehicle ID Number
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         // String midAckFlag = "0";
         String midAckFlag = "1";

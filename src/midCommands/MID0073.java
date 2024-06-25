@@ -19,7 +19,7 @@ public class MID0073 {
     }
     //
     // MID 0073 Alarm unsubscribe
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0020";
         String midRevision = "001";

@@ -19,7 +19,7 @@ public class MID0050 {
     }
     //
     // MID 0050 Vehicle ID Number download request
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midLengthString = "0045";
         String midRevision = "001";

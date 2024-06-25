@@ -19,7 +19,7 @@ public class MID0037 {
     }
     //
     // MID 0037 Job info unsubscribe
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midLengthString = "0020";
         String midRevision = "001";

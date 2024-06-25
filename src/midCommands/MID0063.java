@@ -19,7 +19,7 @@ public class MID0063 {
     }
     //
     // MID 0063 Last tightening result data unsubscribe
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0020";
         String midRevision = "001";

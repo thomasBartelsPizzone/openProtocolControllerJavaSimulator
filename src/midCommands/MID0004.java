@@ -11,7 +11,7 @@ public class MID0004 {
     }
     //
     // MID 0004 Command error
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midLengthString = "0026";
         String midRevision = "001";

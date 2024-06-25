@@ -11,7 +11,7 @@ public class MID0031 {
     }
     //
     //
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midRevision = "002";
         String midAckFlag = "0";

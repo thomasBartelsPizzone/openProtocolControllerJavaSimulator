@@ -17,7 +17,7 @@ public class MID0217 {
     }
     //
     // MID 0217 Relay function
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0028";
         String midRevision = "001";

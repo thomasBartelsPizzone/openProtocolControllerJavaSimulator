@@ -17,7 +17,7 @@ public class MID0128 {
     }
     //
     // MID 0128 Job batch increment
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0020";
         String midRevision = "001";

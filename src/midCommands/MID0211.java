@@ -15,7 +15,7 @@ public class MID0211 {
     }
     //
     // MID 0211 Status externally monitored inputs
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0028";
         String midRevision = "001";

@@ -19,7 +19,7 @@ public class MID0038 {
     }
     //
     // MID 0038 Select Job
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         // String midLengthString = "0022";
         String midLengthString = "0024";

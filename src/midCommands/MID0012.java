@@ -19,7 +19,7 @@ public class MID0012 {
     }
     //
     // MID 0012 Parameter set data upload request
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midLengthString = "0023";
         String midRevision = "001";

@@ -17,7 +17,7 @@ public class MID0251 {
     }
     //
     // MID 0251 Selector socket info
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midRevision = "001";
         String midAckFlag = "0";

@@ -19,7 +19,7 @@ public class MID0019 {
     }
     //
     // MID 0019 Set Parameter set batch size
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midLengthString = "0025";
         String midRevision = "001";

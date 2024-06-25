@@ -19,7 +19,7 @@ public class MID0221 {
     }
     //
     // MID 0221 Digital input function
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0023";
         String midRevision = "001";

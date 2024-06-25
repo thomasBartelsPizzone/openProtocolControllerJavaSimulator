@@ -19,7 +19,7 @@ public class MID0044 {
     }
     //
     // MID 0044 Disconnect tool request
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midLengthString = "0020";
         String midRevision = "001";

@@ -11,7 +11,7 @@ public class MID0108 {
     }
     //
     // MID 0108 Last PowerMACS tightening result data acknowledge
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0021";
         String midRevision = "001";

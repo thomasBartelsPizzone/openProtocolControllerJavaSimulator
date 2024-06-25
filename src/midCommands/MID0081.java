@@ -11,7 +11,7 @@ public class MID0081 {
     }
     //
     // MID 0081 Read time upload reply
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0039";
         String midRevision = "001";

@@ -19,7 +19,7 @@ public class MID0078 {
     }
     //
     // MID 0078 Acknowledge alarm remotely on controller
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0020";
         String midRevision = "001";

@@ -19,7 +19,7 @@ public class MID0100 {
     }
     //
     // MID 0100 Multi-spindle result subscribe
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         // String midLengthString = "0020";
         String midLengthString = null;

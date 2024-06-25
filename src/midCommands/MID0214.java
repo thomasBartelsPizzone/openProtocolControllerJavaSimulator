@@ -19,7 +19,7 @@ public class MID0214 {
     }
     //
     // MID 0214 IO device status request
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0022";
         // String midRevision = "000";

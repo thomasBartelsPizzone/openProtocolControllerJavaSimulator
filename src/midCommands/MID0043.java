@@ -17,7 +17,7 @@ public class MID0043 {
     }
     //
     // MID 0043 Tool data upload request
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midLengthString = "0020";
         String midRevision = "001";

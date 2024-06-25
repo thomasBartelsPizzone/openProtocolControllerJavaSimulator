@@ -19,7 +19,7 @@ public class MID0106 {
     }
     //
     // MID 0106 Last PowerMACS tightening result Station data
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         // String midLengthString = "0020";
         String midLengthString = null;

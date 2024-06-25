@@ -19,7 +19,7 @@ public class MID0150 {
     }
     //
     // MID 0150 Identifier download request
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         String midRevision = "001";
         String midAckFlag = "0";
         String midStationID = "00";

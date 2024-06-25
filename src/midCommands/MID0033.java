@@ -10,7 +10,7 @@ public class MID0033 {
         return null;
     }
     //
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midRevision = "001";
         String midAckFlag = "0";

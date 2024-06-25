@@ -19,7 +19,7 @@ public class MID0064 {
     }
     //
     // MID 0064 Old tightening result upload request
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0030";
         // String midRevision = "001";

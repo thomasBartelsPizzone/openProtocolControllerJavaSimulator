@@ -15,7 +15,7 @@ public class MID0082 {
     }
     //
     // MID 0082 Set Time
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
 		//
         String midLengthString = "0039";
         String midRevision = "001";

@@ -19,7 +19,7 @@ public class MID0032 {
     }
     //
     // MID 0032 Job data upload request
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midLengthString = "0022";
         String midRevision = "003";

@@ -43,7 +43,7 @@ public class MID0014 {
     //
     //
     // MID 0014 Parameter set selected subscribe
-    public String integratorString(String midCommandValue, List<Object> dataFieldValue) {
+    public String midCmdSerializeString(String midCommandValue, List<Object> dataFieldValue) {
         //
         String midLengthString = "0020";
         String midRevision = "001";
